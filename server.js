@@ -8,6 +8,8 @@ const authRoutes = require("./routes/auth");
 const productRoutes=require('./routes/product');
 const cartRoutes=require('./routes/cart');
 const orderRoutes=require('./routes/order');
+const checkoutRoutes=require('./routes/stripe');
+const reviewRoutes=require('./routes/review');
 
 app.use(cors());
 app.use(express.json());
@@ -28,6 +30,8 @@ app.use("/api/users", userRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/cart", cartRoutes);
 app.use("/api/order", orderRoutes);
+app.use("/api/checkout", checkoutRoutes);
+app.use("/api/product/review", reviewRoutes);
 
 const PORT = process.env.PORT || 3300;
 app.listen(PORT, () => {
