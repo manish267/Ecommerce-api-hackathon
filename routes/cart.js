@@ -9,13 +9,14 @@ const Cart=require('./../models/Cart')
 // CREATE
 
 router.post("/",verifyToken,async (req,res)=>{
+  console.log(req.body)
     const newCart=new Cart(req.body);
 
     try{
         const savedCart=await newCart.save();
-        res.status(200).json(savedProduct);
+        res.status(200).json(savedCart);
     }catch(err){
-        res.status(500).json(err);
+        res.status(500).json({err:err});
     }
 })
 
@@ -23,7 +24,7 @@ router.post("/",verifyToken,async (req,res)=>{
 // UPDATE PRODUCT
 router.put("/:id", verifyTokenAndAuthorization, async (req, res) => {
     try{
-        const updatedCart=await Cart.findByIdAndUpdate(req.params.id,{
+        const updatedCart=await Cart.findOneAndUpdate({userId:req.params.id},{
             $set:req.body,
         },
         {new:true}
@@ -47,7 +48,7 @@ router.delete("/:id", verifyTokenAndAuthorization, async (req, res) => {
 });
 
 // GET USER CART
-router.get("/cart/:id",verifyTokenAndAuthorization, async (req, res) => {
+router.get("/:id",verifyTokenAndAuthorization, async (req, res) => {
   try {
     const cart = await Cart.findOne({userId:req.params.id});
     res.status(200).json(cart);
